@@ -1,0 +1,31 @@
+import os
+import shutil
+import random
+
+# Set up the directory paths
+data_dir = '/Users/priscillaylj/Documents/FYP/Datasets/TDD/Radiographs'
+train_dir = '/Users/priscillaylj/Documents/FYP/Datasets/TDD/img_train'
+test_dir = '/Users/priscillaylj/Documents/FYP/Datasets/TDD/img_test'
+
+# Get a list of all image filenames in the dataset directory
+image_filenames = [f for f in os.listdir(data_dir) if f.endswith('.jpg')]
+
+# Shuffle the image filenames randomly
+random.shuffle(image_filenames)
+
+# Split the dataset into training and test sets (80% train, 20% test)
+split_idx = int(0.8 * len(image_filenames))
+train_filenames = image_filenames[:split_idx]
+test_filenames = image_filenames[split_idx:]
+
+# Copy the training set images to the train directory
+for filename in train_filenames:
+    src = os.path.join(data_dir, filename)
+    dst = os.path.join(train_dir, filename)
+    shutil.copyfile(src, dst)
+
+# Copy the test set images to the test directory
+for filename in test_filenames:
+    src = os.path.join(data_dir, filename)
+    dst = os.path.join(test_dir, filename)
+    shutil.copyfile(src, dst)
